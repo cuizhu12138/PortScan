@@ -1,7 +1,6 @@
 package FindMethod
 
 import (
-	"fmt"
 	"net"
 	"time"
 )
@@ -39,7 +38,6 @@ func IcmpFindHost(IP net.IP) bool {
 
 	conn, err := net.Dial("ip4:icmp", IP.String())
 	if err != nil {
-		fmt.Println("Error:", err)
 		return false
 	}
 	defer conn.Close()
@@ -63,7 +61,6 @@ func IcmpFindHost(IP net.IP) bool {
 	// 发送ICMP报文
 	_, err = conn.Write(icmpMsg)
 	if err != nil {
-		fmt.Println("Error:", err)
 		return false
 	}
 
@@ -74,19 +71,7 @@ func IcmpFindHost(IP net.IP) bool {
 	recvBuf := make([]byte, 1024)
 	_, err = conn.Read(recvBuf)
 	if err != nil {
-		fmt.Println("Error:", err)
 		return false
-	}
-
-	// 解析响应
-	icmpType := recvBuf[0]
-	switch icmpType {
-	case icmpEcho:
-		fmt.Println("Echo Reply from", IP.String())
-	case icmpTimestamp:
-		fmt.Println("Timestamp Reply from", IP.String())
-	default:
-		fmt.Println("Unknown ICMP message type:", icmpType)
 	}
 
 	return true

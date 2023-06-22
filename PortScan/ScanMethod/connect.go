@@ -2,6 +2,7 @@ package ScanMethod
 
 import (
 	"PortScan/DataProcessing"
+	"PortScan/FindMethod"
 	"PortScan/config"
 	"fmt"
 	"net"
@@ -79,7 +80,10 @@ func ConnectScan(IPRange []string, PortRange []string) error {
 
 	for _, IP := range CtotalIP {
 		fmt.Println("正在扫描" + IP.String())
-		CRealScan(IP)
+
+		if FindMethod.IcmpFindHost(IP) {
+			CRealScan(IP)
+		}
 	}
 
 	return nil

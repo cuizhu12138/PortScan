@@ -9,6 +9,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var OccurSimultaneously string = ""
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "PortScan",
@@ -29,6 +31,8 @@ func Execute() {
 }
 
 func init() {
+
+	rootCmd.PersistentFlags().StringVarP(&OccurSimultaneously, "OccurSimultaneously", "O", "", "Set Max Goroutine")
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.

@@ -6,9 +6,11 @@ package cmd
 import (
 	"PortScan/DataProcessing"
 	"PortScan/ScanMethod"
+	"PortScan/config"
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
+	"strconv"
 )
 
 // cCmd represents the c command
@@ -17,7 +19,17 @@ var cCmd = &cobra.Command{
 	Short: "进行connect连接扫描",
 	Long:  `用法：PortScan S c IP起点-IP终点 端口起点-端口终点(默认0 - 1024)`,
 	Run: func(cmd *cobra.Command, args []string) {
+		tmp2 := config.MaxGoroutine
+		if OccurSimultaneously != "" {
+			tmp, err := strconv.ParseInt(OccurSimultaneously, 10, 32)
 
+			if err != nil {
+				fmt.Println("无效的并发数")
+				os.Exit(114516)
+			}
+			config.MaxGoroutine = int(tmp)
+		}
+		defer func() { config.MaxGoroutine = tmp2 }()
 		// 解析IP和端口
 		if err := ScanMethod.ConnectScan(DataProcessing.ParseIPPort(args)); err != nil {
 			fmt.Println(err)

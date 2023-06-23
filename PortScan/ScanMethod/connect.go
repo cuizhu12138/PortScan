@@ -83,7 +83,11 @@ func ConnectScan(IPRange []string, PortRange []string) error {
 
 		if FindMethod.IcmpFindHost(IP) {
 			CRealScan(IP)
+<<<<<<< HEAD
 		} else {
+=======
+		}else {
+>>>>>>> 7826135c55efd40b5ff5cc848d0c8ff018ea49b3
 			fmt.Println("主机可能不存活，放弃扫描")
 		}
 		//CRealScan(IP)
